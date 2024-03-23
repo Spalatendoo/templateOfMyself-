@@ -1,10 +1,13 @@
+package DP;
+
 public class Bag {
     //背包问题
 
     /**
      * 多重背包
-     * P_2585 求方案数
-     * P_1981 求从每个类型物品里拿一个物品(物品价值不同) ， 最后能够拿到哪些不同的价值
+     * P_2585 求方案数  https://leetcode.cn/problems/number-of-ways-to-earn-points/
+     * P_1981  求拿的不同结果  https://leetcode.cn/problems/minimize-the-difference-between-target-and-chosen-elements/
+     * P_2218  求最大 https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles/
      */
     /**
      *
