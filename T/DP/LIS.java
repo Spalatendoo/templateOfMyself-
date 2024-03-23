@@ -1,5 +1,8 @@
 package DP;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LIS {
     /**
      * 最长递增子序列
@@ -58,6 +61,91 @@ public class LIS {
         return rec[index] = res  + 1;
     }
 
-    //------------------------------------------------------
+    //------------------优化------------------------------------
 
+
+    /**
+     * O(nlogn)写法
+     * 维护固定长度的IS的末尾元素的最小值 + 二分优化
+     * 基于 值域 的线段树、平衡树等数据结构优化
+     */
+
+    //贪心
+    public int lengthOfLIS1(int[] nums) {
+        int n = nums.length;
+        List<Integer> g = new ArrayList<>();
+        for (int x : nums){
+            int j = lowerBound(g , x);
+            if (j == g.size()){
+                g.add(x);
+            }else {
+                g.set(j , x);
+            }
+        }
+        return g.size();
+    }
+    int lowerBound(List<Integer> g , int tar){
+        int left = -1 , right = g.size();
+        while (left + 1 < right){
+            int mid = (left + right) >>> 1;
+            if (g.get(mid) < tar){
+                left = mid;
+            }else {
+                right = mid;
+            }
+        }
+        return right;
+    }
+
+
+
+
+    //线段树优化
+    int[] max;
+    public int lengthOfLIS2(int[] nums) {
+        int n = nums.length;
+        int mx = 0;
+        for (int x : nums){
+            //+10001是因为有负数， 全部置为正数
+            mx = Math.max(x + 10001 , mx);
+        }
+        max = new int[mx * 4];
+        for (int x : nums){
+            if (x == -10000){
+                update(1 , 1 , mx , 1 , 1);
+            }else {
+                int q = query(1 ,1 , mx , 1 , x + 10000) + 1;
+                update(1 , 1 , mx , x + 10001, q);
+            }
+        }
+        return max[1];
+
+    }
+    void update(int o , int l , int r , int i , int val){
+        if (l == r){
+            max[o] = val;
+            return;
+        }
+        int mid = (l + r) >>> 1;
+        if (i <= mid){
+            update(o * 2 , l , mid , i , val );
+        }else {
+            update(o * 2 + 1 , mid + 1 , r , i , val);
+        }
+        max[o] = Math.max(max[o * 2] , max[o * 2 + 1]);
+    }
+    int query(int o , int l , int r , int L , int R){
+        if (l >= L && r <= R){
+            return max[o];
+        }
+        int res = 0;
+        int mid = (l + r) >>> 1;
+        if (L <= mid){
+            res = query(o *  2 , l , mid , L , R);
+        }
+        if (R > mid){
+            res = Math.max(res , query(o * 2 + 1 , mid + 1 , r , L , R));
+        }
+        return res;
+    }
 }
