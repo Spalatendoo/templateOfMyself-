@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ScanLine {
 
+    //求矩形面积
     public int rectangleArea(int[][] rectangles) {
         int n = rectangles.length , mod = (int)1e9 + 7;
         long ans = 0;
