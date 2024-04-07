@@ -14,7 +14,7 @@ public class monotone_queue {
      * 区间最大最小 也可以用线段树 / ST表 来处理
      */
 
-    //239 滑动窗口最大值 2
+    //239 滑动窗口最大值 1
     public int[] solution1(int[] nums, int k) {
         int n = nums.length;
         Deque<Integer> q = new ArrayDeque<>();
